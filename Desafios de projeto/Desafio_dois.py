@@ -39,7 +39,7 @@ saldo_indisponível=" "
 
 #float e int
 LIMITE_SAQUE = 500.00
-saldo_disponível= 0.00
+saldo_disponível=0.00
 depósito= 0.00
 opção_escolhida=0
 saque= 0.00
@@ -59,7 +59,9 @@ Por favor, digite um número para começar o seu atendimento
 [0]SAIR
 *********************************************************
 """
-def menu_principal():
+def menu_principal(): #função que executa o retorno ao menu principal
+    global x_menu
+    global x_while
     print("Digite [4] para retornar ao menu principal ou [0] para sair.")
     x_menu=int(input())
     while x_menu !=0 and x_menu !=4:
@@ -73,8 +75,12 @@ def menu_principal():
         else:
             x_while +=1  
 
-
-def depositar():
+def depositar(): #função que executa a opção de depositar
+    global depósito
+    global x_menu
+    global x_while
+    global saldo_disponível
+    global extrato
     print("Digite o valor que deseja depositar: ")
     depósito=float(input())
     x_menu=int(depósito)
@@ -87,16 +93,24 @@ def depositar():
             x_while=0
         else:
             saldo_disponível += depósito
-            extrato = f"{extrato} Depósito realizado no valor de R$ {depósito} \n"
+            extrato = f"{extrato} Depósito realizado no valor de R$ {depósito: .2f} \n"
             print("Depósito realizado com sucesso, deseja realizar mais alguma operação?")
             menu_principal()
     else:
         saldo_disponível += depósito
-        extrato = f"{extrato} Depósito realizado no valor de R$ {depósito} \n"
+        extrato = f"{extrato} Depósito realizado no valor de R$ {depósito: .2f} \n"
         print("Depósito realizado com sucesso, deseja realizar mais alguma operação?")
         menu_principal()
 
-def sacar():
+def sacar(): #função que executa a opção de sacar
+    global saque
+    global x_menu
+    global x_while
+    global quantidade_de_saques
+    global LIMITE_SAQUE
+    global saldo_disponível
+    global extrato
+    global saldo_indisponível
     print("Digite o valor que deseja sacar: ")
     saque=float(input())
     x_menu=int(saque)
@@ -127,11 +141,11 @@ def sacar():
                     if int(saque)<=int(saldo_disponível) :
                         quantidade_de_saques +=1
                         saldo_disponível -=saque
-                        extrato = f"{extrato} Saque realizado no valor de R$ {saque} \n"
+                        extrato = f"{extrato} Saque realizado no valor de R$ {saque: .2f} \n"
                         print("Saque realizado com sucesso, deseja realizar mais alguma operação?")
                         menu_principal()
                     else:
-                        saldo_indisponível=f"Você não tem saldo suficiente para esse saque, por favor, escolha um valor até R$ {saldo_disponível},00 ou digite [0] para sair."
+                        saldo_indisponível=f"Você não tem saldo suficiente para esse saque, por favor, escolha um valor até R$ {saldo_disponível: .2f} ou digite [0] para sair."
                         print(saldo_indisponível)
                         saque=float(input())
                         x_menu=int(saque)
@@ -160,7 +174,7 @@ def sacar():
                     if int(saque)<=int(saldo_disponível) :
                         quantidade_de_saques +=1
                         saldo_disponível -=saque
-                        extrato = f"{extrato} Saque realizado no valor de R$ {saque} \n"
+                        extrato = f"{extrato} Saque realizado no valor de R$ {saque: .2f} \n"
                         print("Saque realizado com sucesso, deseja realizar mais alguma operação?")
                         menu_principal()
                     else:
@@ -177,7 +191,7 @@ def sacar():
                 if int(saque) <=int(saldo_disponível) :
                     quantidade_de_saques +=1
                     saldo_disponível -=saque
-                    extrato = f"{extrato} Saque realizado no valor de R$ {saque} \n"
+                    extrato = f"{extrato} Saque realizado no valor de R$ {saque: .2f} \n"
                     print("Saque realizado com sucesso, deseja realizar mais alguma operação?")
                     menu_principal()
                 else:
@@ -191,17 +205,19 @@ def sacar():
                     else:
                         x_while +=1
 
-def extrato():
+def extract(): #função que executa a opção de exibir o extrato das transações
+    global extrato
+    global saldo_disponível
     if len(extrato)==1:
         print("Não foram realizadas movimentações")
         menu_principal()
     else:
         print(extrato)
-        saldo_atual=f"Seu saldo atual é de R$ {saldo_disponível}"
+        saldo_atual=f"Seu saldo atual é de R$ {saldo_disponível: .2f}"
         print(saldo_atual)
         menu_principal()  
 
-while x_while!=0:
+while x_while!=0: #loop que executa o menu principal
     print(boas_vindas)
     opção_escolhida=int(input())
     if opção_escolhida==0:
@@ -213,7 +229,7 @@ while x_while!=0:
         if (opção_escolhida==2):
             sacar()
         if (opção_escolhida==3):
-            extrato()               
+            extract()               
     else:
         print("Opção inválida, por favor escolha uma das opções do menu principal")
         x_while +=1         
