@@ -17,7 +17,7 @@
 
 #DICIONÁRIOS E LISTAS
 usuários = {
-    "15409043774": {"nome":"Fernanda", "00001":0.00, }
+    "13209045772": {"nome":"Fernanda", "00001":0.00, }
 }
 
 contas=[00001,]
