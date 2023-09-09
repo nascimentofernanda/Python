@@ -1,33 +1,26 @@
-# Criar um sistema bancário com as operações: sacar, depositar
-#e visualizar extrato.
+# Criar um sistema bancário com as operações: sacar, depositar e visualizar extrato.
 
-#Fomos contratados por um grande banco para desenvolver o
-#seu novo sistema. Esse banco deseja modernizar suas
-#operações e para isso escolheu a linguagem Python. Para a
-#primeira versão do sistema devemos implementar apenas 3
-#operações: depósito, saque e extrato.
+#Fomos contratados por um grande banco para desenvolver o seu novo sistema. Esse banco deseja modernizar suas operações e para isso escolheu a linguagem Python.
+#Para a primeira versão do sistema devemos implementar apenas 3 operações: depósito, saque e extrato.
 
-#Deve ser possível depositar valores positivos para a minha
-#conta bancária. A v1 do projeto trabalha apenas com 1 usuário,
-#dessa forma não precisamos nos preocupar em identificar qual
-#é o número da agência e conta bancária. Todos os depósitos
-#devem ser armazenados em uma variável e exibidos na
-#operação de extrato.
+#Deve ser possível depositar valores positivos para a minha conta bancária. A v1 do projeto trabalha apenas com 1 usuário, dessa forma não precisamos nos preocupar em identificar qual é o número da agência e conta bancária. 
+#Todos os depósitosmdevem ser armazenados em uma variável e exibidos na operação de extrato.
 
-#O sistema deve permitir realizar 3 saques diários com limite
-#máximo de R$ 500,00 por saque. Caso o usuário não tenha
-#saldo em conta, o sistema deve exibir uma mensagem
-#informando que não será possível sacar o dinheiro por falta de
-#saldo. Todos os saques devem ser armazenados em uma
-#variável e exibidos na operação de extrato.
+#O sistema deve permitir realizar 3 saques diários com limite máximo de R$ 500,00 por saque.
+#Caso o usuário não tenhamsaldo em conta, o sistema deve exibir uma mensagem informando que não será possível sacar o dinheiro por falta de saldo.
+#Todos os saques devem ser armazenados em uma variável e exibidos na operação de extrato.
 
-#Essa operação deve listar todos os depósitos e saques
-#realizados na conta. No fim da listagem deve ser exibido o
-#saldo atual da conta. Se o extrato estiver em branco, exibir a
-#mensagem: Não foram realizadas movimentações.
-#Os valores devem ser exibidos utilizando o formato R$ xxx.xx,
-#exemplo:
-#1500.45 = R$ 1500.45
+#Essa operação deve listar todos os depósitos e saques realizados na conta. No fim da listagem deve ser exibido o saldo atual da conta. Se o extrato estiver em branco, exibir a mensagem: Não foram realizadas movimentações.
+#Os valores devem ser exibidos utilizando o formato R$ xxx.xx, exemplo: 1500.45 = R$ 1500.45
+
+#DECLARAÇÃO DE VARIÁVEIS
+
+#DICIONÁRIOS E LISTAS
+usuários = {
+    "15409043774": {"nome":"Fernanda", "00001":0.00, }
+}
+
+contas=[00001,]
 
 #STRINGS
 extrato=f"""
@@ -37,29 +30,73 @@ SAQUE_ZERADO="Valor inválido, por favor, escolha outro valor ou tecle [0] para 
 AGRADECIMENTO="Obrigado por utilizar o nosso banco."
 saldo_indisponível=" "
 
-#float e int
+#FLOAT E INT
 LIMITE_SAQUE = 500.00
 saldo_disponível=0.00
 depósito= 0.00
 opção_escolhida=0
 saque= 0.00
 quantidade_de_saques= 0
+cpf=0
 
 #VARIÁVEIS CONDICIONAIS
+i=0
 x_while=1
 x_menu=0
 
+#MENSAGENS PRINCIPAIS
+inicio= f"""
+Olá, seja bem-vindo(a) ao nosso banco, para iniciar seu atendimento, por favor, escolha uma opção:
+[0] Quero acessar minha conta
+[1] Sou cliente mas quero abrir uma nova conta
+[2] Não sou cliente e quero abrir uma conta
+"""
 
 boas_vindas= f"""
-*********Olá, seja bem-vindo ao nosso banco**************
 Por favor, digite um número para começar o seu atendimento
-[1]DEPÓSITO
-[2]SAQUE
-[3]EXTRATO
-[0]SAIR
+[1] DEPÓSITO
+[2] SAQUE
+[3] EXTRATO
+[0] SAIR
 *********************************************************
 """
-def menu_principal(): #função que executa o retorno ao menu principal
+def menu_principal(): #executa o menu principal com as opções de sacar, depositar e extrato
+    while x_while!=0: #loop que executa o menu principal
+        print(boas_vindas)
+        opção_escolhida=int(input())
+        if opção_escolhida==0:
+            print(AGRADECIMENTO)
+            x_while=0
+        elif opção_escolhida==1 or opção_escolhida==2 or opção_escolhida==3:
+            if (opção_escolhida==1):
+                depositar()
+            if (opção_escolhida==2):
+                sacar()
+            if (opção_escolhida==3):
+                extract()               
+        else:
+            print("Opção inválida, por favor escolha uma das opções do menu principal")
+            x_while +=1         
+
+def buscar_cpf(): #executa a busca do cpf para identificar o cliente
+    while cpf != usuários[i]:
+        i=i+1
+    else:
+        menu_principal()
+
+def adicionar_conta():
+    while cpf != usuários[i]:
+        i=i+1
+    else:
+        nova_conta = contas[-1]
+        nova_conta = nova_conta+1
+        contas.append(nova_conta)
+
+def criar_conta():
+    print("Por favor, digite seu cpf")
+    cpf=int(input)
+
+def retorno(): #função que executa o retorno ao menu principal
     global x_menu
     global x_while
     print("Digite [4] para retornar ao menu principal ou [0] para sair.")
@@ -95,12 +132,12 @@ def depositar(): #função que executa a opção de depositar
             saldo_disponível += depósito
             extrato = f"{extrato} Depósito realizado no valor de R$ {depósito: .2f} \n"
             print("Depósito realizado com sucesso, deseja realizar mais alguma operação?")
-            menu_principal()
+            retorno()
     else:
         saldo_disponível += depósito
         extrato = f"{extrato} Depósito realizado no valor de R$ {depósito: .2f} \n"
         print("Depósito realizado com sucesso, deseja realizar mais alguma operação?")
-        menu_principal()
+        retorno()
 
 def sacar(): #função que executa a opção de sacar
     global saque
@@ -125,7 +162,7 @@ def sacar(): #função que executa a opção de sacar
             if quantidade_de_saques>=3:
                 print("Você excedeu a quantidade diária de saques, por favor, volte amanhã.")
                 print("Deseja realizar mais alguma operação?")
-                menu_principal()
+                retorno()
             else:
                 if int(saque)>LIMITE_SAQUE:
                         while int(saque)>LIMITE_SAQUE:
@@ -143,7 +180,7 @@ def sacar(): #função que executa a opção de sacar
                         saldo_disponível -=saque
                         extrato = f"{extrato} Saque realizado no valor de R$ {saque: .2f} \n"
                         print("Saque realizado com sucesso, deseja realizar mais alguma operação?")
-                        menu_principal()
+                        retorno()
                     else:
                         saldo_indisponível=f"Você não tem saldo suficiente para esse saque, por favor, escolha um valor até R$ {saldo_disponível: .2f} ou digite [0] para sair."
                         print(saldo_indisponível)
@@ -158,7 +195,7 @@ def sacar(): #função que executa a opção de sacar
         if quantidade_de_saques>=3:
             print("Você excedeu a quantidade diária de saques, por favor, volte amanhã.")
             print("Deseja realizar mais alguma operação?")
-            menu_principal()
+            retorno()
         else:
             if int(saque)> int(LIMITE_SAQUE):
                 while int(saque)> int(LIMITE_SAQUE):
@@ -176,7 +213,7 @@ def sacar(): #função que executa a opção de sacar
                         saldo_disponível -=saque
                         extrato = f"{extrato} Saque realizado no valor de R$ {saque: .2f} \n"
                         print("Saque realizado com sucesso, deseja realizar mais alguma operação?")
-                        menu_principal()
+                        retorno()
                     else:
                         saldo_indisponível=f"Você não tem saldo suficiente para esse saque, por favor, escolha um valor até R$ {saldo_disponível},00 ou digite [0] para sair."
                         print(saldo_indisponível)
@@ -193,7 +230,7 @@ def sacar(): #função que executa a opção de sacar
                     saldo_disponível -=saque
                     extrato = f"{extrato} Saque realizado no valor de R$ {saque: .2f} \n"
                     print("Saque realizado com sucesso, deseja realizar mais alguma operação?")
-                    menu_principal()
+                    retorno()
                 else:
                     saldo_indisponível=f"Você não tem saldo suficiente para esse saque, por favor, escolha um valor até R$ {saldo_disponível},00 ou digite [0] para sair."
                     print(saldo_indisponível)
@@ -210,26 +247,25 @@ def extract(): #função que executa a opção de exibir o extrato das transaç�
     global saldo_disponível
     if len(extrato)==1:
         print("Não foram realizadas movimentações")
-        menu_principal()
+        retorno()
     else:
         print(extrato)
         saldo_atual=f"Seu saldo atual é de R$ {saldo_disponível: .2f}"
         print(saldo_atual)
-        menu_principal()  
+        retorno()  
 
-while x_while!=0: #loop que executa o menu principal
-    print(boas_vindas)
-    opção_escolhida=int(input())
-    if opção_escolhida==0:
-        print(AGRADECIMENTO)
-        x_while=0
-    elif opção_escolhida==1 or opção_escolhida==2 or opção_escolhida==3:
-        if (opção_escolhida==1):
-            depositar()
-        if (opção_escolhida==2):
-            sacar()
-        if (opção_escolhida==3):
-            extract()               
-    else:
-        print("Opção inválida, por favor escolha uma das opções do menu principal")
-        x_while +=1         
+print(inicio)
+opção_inicial=int(input())
+while opção_inicial ==0 or opção_inicial ==1 or opção_inicial==2:
+    if opção_inicial==0:
+        print("Por favor, digite o número do seu CPF")
+        cpf=int(input())
+        buscar_cpf()
+    elif opção_inicial==1:
+        adicionar_conta()
+    elif opção_inicial==2:
+        criar_conta()
+else:
+    print("Opção não disponível, por favor, escolha uma das opções.")
+    print(inicio)
+    opção_inicial=int(input())
