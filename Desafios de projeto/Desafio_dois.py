@@ -16,11 +16,10 @@
 #DECLARAÇÃO DE VARIÁVEIS
 
 #DICIONÁRIOS E LISTAS
-usuários = {
-    "13209045772": {"nome":"Fernanda", "00001":0.00, }
-}
-
-contas=[00001,]
+usuários = []
+usuário1 = { "cpf" : 13406047867, "nome" : "Fernanda" , "1":0.00 }
+contas=[1,]
+usuários.append(usuário1)
 
 #STRINGS
 extrato=f"""
@@ -60,6 +59,7 @@ Por favor, digite um número para começar o seu atendimento
 [0] SAIR
 *********************************************************
 """
+
 def menu_principal(): #executa o menu principal com as opções de sacar, depositar e extrato
     while x_while!=0: #loop que executa o menu principal
         print(boas_vindas)
@@ -79,22 +79,39 @@ def menu_principal(): #executa o menu principal com as opções de sacar, deposi
             x_while +=1         
 
 def buscar_cpf(): #executa a busca do cpf para identificar o cliente
-    while cpf != usuários[i]:
-        i=i+1
-    else:
-        menu_principal()
+    global i
+    for usuário in usuários:
+        if cpf == usuários[i]:
+            menu_principal()
+        else:
+            i=int(i)
+            i=i+1
 
-def adicionar_conta():
+def adicionar_conta(): #adiciona uma conta a um CPF que já tenha uma conta cadastrada
     while cpf != usuários[i]:
         i=i+1
     else:
         nova_conta = contas[-1]
         nova_conta = nova_conta+1
         contas.append(nova_conta)
+        nova_conta=str(nova_conta)
+        usuários[cpf][nova_conta]="0.00"
+        print(usuários["nome"], ", sua conta criada com sucesso!")
+        menu_principal()
 
-def criar_conta():
+def criar_conta(): #cria uma nova conta (nova chave para o dicionário usuários)
     print("Por favor, digite seu cpf")
-    cpf=int(input)
+    cpf=(input)
+    print("Por favor, digite seu nome")
+    nome=input()
+    nova_conta = contas[-1]
+    nova_conta = nova_conta+1
+    contas.append(nova_conta)
+    nova_conta=str(nova_conta)
+    novos_dados= {cpf : {"nome":nome, nova_conta:"0.00"}}
+    usuários.update(novos_dados)
+    print(usuários["nome"], ", sua conta criada com sucesso!")
+    menu_principal()
 
 def retorno(): #função que executa o retorno ao menu principal
     global x_menu
