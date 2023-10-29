@@ -3,4 +3,4 @@ altura = float(input('Digite a altura \n'))
 largura = float(input('digite a largura \n'))
 área = altura * largura
 quantidade_de_tinta = área/2
-print(f'A quantidade necessária de tinra é {quantidade_de_tinta} litros')
+print(f'A quantidade necessária de tinta é {quantidade_de_tinta} litros')
