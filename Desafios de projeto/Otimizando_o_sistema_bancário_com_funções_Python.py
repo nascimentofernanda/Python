@@ -16,10 +16,9 @@
 #DECLARAÇÃO DE VARIÁVEIS
 
 #DICIONÁRIOS E LISTAS
-usuários = []
-usuário1 = { "cpf" : 13406047867, "nome" : "Fernanda" , "1":0.00 }
-contas=[1,]
-usuários.append(usuário1)
+clientes={
+    12345678900:{"nome":"Cliente 1", "número da conta":"000001", "saldo":"0.00"},
+}
 
 #STRINGS
 extrato=f"""
@@ -40,6 +39,7 @@ cpf=0
 
 #VARIÁVEIS CONDICIONAIS
 i=0
+cliente=1
 x_while=1
 x_menu=0
 
@@ -47,8 +47,7 @@ x_menu=0
 inicio= f"""
 Olá, seja bem-vindo(a) ao nosso banco, para iniciar seu atendimento, por favor, escolha uma opção:
 [0] Quero acessar minha conta
-[1] Sou cliente mas quero abrir uma nova conta
-[2] Não sou cliente e quero abrir uma conta
+[1] Quero abrir uma conta
 """
 
 boas_vindas= f"""
@@ -61,10 +60,11 @@ Por favor, digite um número para começar o seu atendimento
 """
 
 def menu_principal(): #executa o menu principal com as opções de sacar, depositar e extrato
+    global x_while
     while x_while!=0: #loop que executa o menu principal
         print(boas_vindas)
         opção_escolhida=int(input())
-        if opção_escolhida==0:
+        if opção_escolhida==0: # 0 é a opção para sair do atendimento
             print(AGRADECIMENTO)
             x_while=0
         elif opção_escolhida==1 or opção_escolhida==2 or opção_escolhida==3:
@@ -79,25 +79,13 @@ def menu_principal(): #executa o menu principal com as opções de sacar, deposi
             x_while +=1         
 
 def buscar_cpf(): #executa a busca do cpf para identificar o cliente
-    global i
-    for usuário in usuários:
-        if cpf == usuários[i]:
+    global i, cliente
+    for cliente in clientes:
+        if cpf == clientes[i]:
             menu_principal()
         else:
             i=int(i)
-            i=i+1
-
-def adicionar_conta(): #adiciona uma conta a um CPF que já tenha uma conta cadastrada
-    while cpf != usuários[i]:
-        i=i+1
-    else:
-        nova_conta = contas[-1]
-        nova_conta = nova_conta+1
-        contas.append(nova_conta)
-        nova_conta=str(nova_conta)
-        usuários[cpf][nova_conta]="0.00"
-        print(usuários["nome"], ", sua conta criada com sucesso!")
-        menu_principal()
+            cliente=cliente+1
 
 def criar_conta(): #cria uma nova conta (nova chave para o dicionário usuários)
     print("Por favor, digite seu cpf")
@@ -273,14 +261,14 @@ def extract(): #função que executa a opção de exibir o extrato das transaç�
 
 print(inicio)
 opção_inicial=int(input())
-while opção_inicial ==0 or opção_inicial ==1 or opção_inicial==2:
+while opção_inicial ==0 or opção_inicial ==1:
     if opção_inicial==0:
         print("Por favor, digite o número do seu CPF")
         cpf=int(input())
-        buscar_cpf()
+        #colocar um if para verificar se a chave existe no dicionário clientes
+        #se existir executa o menu principal, senão pede para o cliente redigitar o cpf
+        menu_principal()
     elif opção_inicial==1:
-        adicionar_conta()
-    elif opção_inicial==2:
         criar_conta()
 else:
     print("Opção não disponível, por favor, escolha uma das opções.")
